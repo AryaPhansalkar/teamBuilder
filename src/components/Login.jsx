@@ -53,7 +53,7 @@ const Login = () => {
       </div>
 
       <div className="w-1/3 flex justify-end space-x-8">
-        <Link to="/"><div className="text-white text-lg cursor-pointer hover:underline">Home</div></Link>
+        <Link to="/random"><div className="text-white text-lg cursor-pointer hover:underline">Home</div></Link>
         <Link to="/signup"><div className="text-white text-lg cursor-pointer hover:underline">Sign-Up</div></Link>
       </div>
     </div>
