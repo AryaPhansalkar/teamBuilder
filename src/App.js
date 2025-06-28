@@ -31,13 +31,11 @@ function App() {
         )
       },
       {
-        path: "*",
-        element: <Navigate to="/" replace />
+        path:"/random",
+        element: <Welcome/>
       }
-    ],
-    {
-      basename: "/random" 
-    }
+     
+    ]
   );
 
   return (
