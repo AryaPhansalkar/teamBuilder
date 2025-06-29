@@ -1,10 +1,15 @@
-import React from 'react'
 import Teamcard from '../assets/Card.jsx'
 import Defence from '../assets/Defence.jsx'
 import Coverage from '../assets/Coverage.jsx'
-
+import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
   const userinfo = JSON.parse(localStorage.getItem('user'))
+  const navigate = useNavigate();
+  const logoutclick = () => {
+    sessionStorage.setItem('isLoggedIn', 'false');
+    alert("You have been logged out successfully");
+    navigate('/login');
+  }
 
   return (
     <div className="px-4 py-6">
@@ -18,7 +23,9 @@ const Dashboard = () => {
 
         <div className="w-full sm:w-1/3 flex justify-center sm:justify-end space-x-4">
           <div className="text-black text-md sm:text-lg">{userinfo?.username}</div>
+          <button onClick={logoutclick} className="text-white border-red-600 bg-red-600 p-2 pl-4 pr-4 rounded-lg">Logout</button>
         </div>
+        
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 mt-8">
