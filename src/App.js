@@ -30,6 +30,10 @@ function App() {
           </Protectedroute>
         )
       },  
+      {
+      path: "*",
+      element: <Navigate to="/login" replace />,
+    },
     ]
   );
 
