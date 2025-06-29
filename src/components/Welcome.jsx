@@ -2,8 +2,18 @@ import React from 'react';
 import '../App.css';
 import '../index.css';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const Welcome = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+      navigate('/builder');
+    }
+  }, [navigate]);
+
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('./assets/homepage.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen flex flex-col justify-center items-center px-4 py-10 animate-fade-in">

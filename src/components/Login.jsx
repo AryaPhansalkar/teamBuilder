@@ -18,7 +18,7 @@ const Login = () => {
   const [authError, setAuthError] = useState('');
 
   useEffect(() => {
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (isLoggedIn) {
       navigate('/builder');
     }
@@ -35,7 +35,7 @@ const Login = () => {
         (await compare(data.password, userinfo.password))
       ) {
         setAuthError('');
-        sessionStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/builder');
       } else {
         setAuthError('Incorrect email or password');
@@ -46,7 +46,7 @@ const Login = () => {
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('./assets/loginbg.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen px-4 sm:px-6">
-        {/* Header */}
+      
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 gap-y-4">
           <div className="sm:w-1/3"></div>
 
@@ -64,7 +64,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Form */}
+      
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center bg-black bg-opacity-50 text-white w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto mt-12 p-6 sm:p-10 rounded-xl">
             <div className="flex flex-col space-y-4 w-full">

@@ -9,7 +9,7 @@ const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
     useEffect(() => {
-      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       if (isLoggedIn) {
         navigate('/builder'); 
       }
@@ -21,7 +21,7 @@ const Signup = () => {
       email: data.email
     };
     localStorage.setItem('user', JSON.stringify(userdata));
-    sessionStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('isLoggedIn', 'true');
     navigate('/builder');
   };
 

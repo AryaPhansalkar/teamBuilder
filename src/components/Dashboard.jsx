@@ -6,9 +6,9 @@ const Dashboard = () => {
   const userinfo = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate();
   const logoutclick = () => {
-    sessionStorage.setItem('isLoggedIn', 'false');
+    localStorage.setItem('isLoggedIn', 'false');
     alert("You have been logged out successfully");
-    navigate('/login');
+    navigate('/');
   }
 
   return (
