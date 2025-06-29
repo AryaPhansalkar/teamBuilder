@@ -12,7 +12,7 @@ function App() {
     [
       {
         path: "/",
-        element: <Navigate to="/Welcome" />
+        element: <Welcome/>
       },
       {
         path: "/login",
@@ -30,10 +30,7 @@ function App() {
           </Protectedroute>
         )
       },  
-      {
-      path: "*",
-      element: <Navigate to="/login" replace />,
-    },
+      
     ]
   );
 

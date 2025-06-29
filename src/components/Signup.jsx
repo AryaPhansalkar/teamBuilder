@@ -29,14 +29,14 @@ const Signup = () => {
     <div className="bg-cover bg-center min-h-screen bg-[url('./assets/pokemonbg.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen">
         
-        {/* Top Navigation */}
+      
         <div className="flex flex-col sm:flex-row items-center justify-between px-10 pt-4 space-y-4 sm:space-y-0">
           <div className="sm:w-1/3" />
           <div className="sm:w-1/3 flex justify-center">
             <h1 className="text-white text-5xl sm:text-7xl text-center">Sign-Up Page</h1>
           </div>
           <div className="sm:w-1/3 flex justify-center sm:justify-end space-x-8">
-            <Link to="/random"><div className="text-white text-lg cursor-pointer hover:underline">Home</div></Link>
+            <Link to="/"><div className="text-white text-lg cursor-pointer hover:underline">Home</div></Link>
             <Link to="/login"><div className="text-white text-lg cursor-pointer hover:underline">Login</div></Link>
           </div>
         </div>

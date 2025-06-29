@@ -55,7 +55,7 @@ const Login = () => {
           </div>
 
           <div className="sm:w-1/3 flex justify-center sm:justify-end space-x-4 sm:space-x-8">
-            <Link to="/random">
+            <Link to="/">
               <div className="text-white text-base sm:text-lg cursor-pointer hover:underline">Home</div>
             </Link>
             <Link to="/signup">
