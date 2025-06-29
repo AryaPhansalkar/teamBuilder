@@ -29,12 +29,7 @@ function App() {
             <Dashboard />
           </Protectedroute>
         )
-      },
-      {
-        path:"/random",
-        element: <Welcome/>
-      }
-     
+      },  
     ]
   );
 

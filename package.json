@@ -1,8 +1,8 @@
 {
-  "homepage": "https://AryaPhanslkar.github.io/random",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://team-builder-vnvj.onrender.com",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
