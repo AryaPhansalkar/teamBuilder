@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { compare } from '../Auth/compare';
+import { compare } from '../auth/compare';
 
 const Login = () => {
   const {
@@ -44,9 +44,9 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen bg-[url('./assets/loginbg.jpg')]">
+    <div className="bg-cover bg-center min-h-screen bg-[url('../public/loginbg.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen px-4 sm:px-6">
-      
+
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 gap-y-4">
           <div className="sm:w-1/3"></div>
 
@@ -64,7 +64,7 @@ const Login = () => {
           </div>
         </div>
 
-      
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col items-center bg-black bg-opacity-50 text-white w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto mt-12 p-6 sm:p-10 rounded-xl">
             <div className="flex flex-col space-y-4 w-full">

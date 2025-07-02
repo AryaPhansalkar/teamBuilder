@@ -1,6 +1,6 @@
-import Teamcard from '../assets/Card.jsx'
-import Defence from '../assets/Defence.jsx'
-import Coverage from '../assets/Coverage.jsx'
+import Teamcard from '../components/Card.jsx'
+import Defence from '../components/Defence.jsx'
+import Coverage from '../components/Coverage.jsx'
 import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
   const userinfo = JSON.parse(localStorage.getItem('user'))
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Defence title="Team Defence" />
-        <Coverage title="Team Type Coverage" />
+        <Coverage title="Team Weakness" />
       </div>
     </div>
   );

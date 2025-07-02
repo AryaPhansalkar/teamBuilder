@@ -15,7 +15,7 @@ const Welcome = () => {
   }, [navigate]);
 
   return (
-    <div className="bg-cover bg-center min-h-screen bg-[url('./assets/homepage.jpg')]">
+    <div className="bg-cover bg-center min-h-screen bg-[url('../public/homepage.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen flex flex-col justify-center items-center px-4 py-10 animate-fade-in">
         
         <div className="text-white text-3xl sm:text-5xl lg:text-7xl text-center pb-5 font-bold">

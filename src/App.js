@@ -1,9 +1,9 @@
 import './App.css';
 import './index.css';
-import Welcome from './components/Welcome';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './components/Dashboard';
+import Welcome from './pages/Welcome';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
 import Protectedroute from './routes/Protectedroute';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
