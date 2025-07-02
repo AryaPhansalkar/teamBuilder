@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { compare } from '../auth/compare';
+import { compare } from '../authentication/compare';
 
 const Login = () => {
   const {

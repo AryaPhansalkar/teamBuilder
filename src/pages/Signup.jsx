@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { EncryptPassword } from '../auth/encrypt';
+import { EncryptPassword } from '../authentication/encrypt';
 import { useEffect, useState } from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
