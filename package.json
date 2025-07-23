@@ -4,5 +4,10 @@
     "express-session": "^1.18.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
+  },
+  "scripts": {
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "build-client": "cd client && npm run build"
   }
 }
