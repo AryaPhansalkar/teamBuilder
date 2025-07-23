@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { set } from 'zod/v4-mini';
+
 const Card = () => {
   const [pokeopt, setpokeopt] = useState([])
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -15,6 +15,7 @@ const Card = () => {
       }))
       setpokeopt(formattedOptions);
       console.log("Fetched Pokémon:", data.results);
+      
     };
     
     fetchPokemon();

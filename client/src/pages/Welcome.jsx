@@ -7,13 +7,6 @@ import { useEffect } from 'react';
 const Welcome = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/builder');
-    }
-  }, [navigate]);
-
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('../public/homepage.jpg')]">
       <div className="bg-black bg-opacity-70 min-h-screen flex flex-col justify-center items-center px-4 py-10 animate-fade-in">

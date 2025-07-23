@@ -1,13 +1,12 @@
-import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { EncryptPassword } from '../authentication/encrypt';
 import { useEffect, useState } from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { FaGoogle } from 'react-icons/fa';
 export const SignupScheme = z.object({
   username: z.string().min(3, { message: "username must be 3 characters long" }).max(25, { message: "username cannot exceed 25 characters" }),
   email: z.string().email({ message: "Invalid email format" }).nonempty({ message: "Email is required" }),
@@ -31,22 +30,45 @@ const Signup = () => {
     }
   });
   const navigate = useNavigate();
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/builder');
-    }
-  }, []);
-  const onSubmit = async (data) => {
-    const userdata = {
+const onSubmit = async (data) => {
+  try {
+    // Step 1: Register the user
+    const registerRes = await axios.post('http://localhost:5000/api/auth/register', {
       username: data.username,
-      password: await EncryptPassword(data.password),
-      email: data.email
-    };
-    localStorage.setItem('user', JSON.stringify(userdata));
-    localStorage.setItem('isLoggedIn', 'true');
-    navigate('/builder');
-  };
+      email: data.email,
+      password: data.password
+    }, { withCredentials: true }); 
+
+    if (registerRes.status === 201) {
+     
+      const loginRes = await axios.post('http://localhost:5000/api/auth/login', {
+        email: data.email,
+        password: data.password
+      }, { withCredentials: true }); 
+
+      if (loginRes.status === 200) {
+        navigate('/builder');
+      } else {
+        alert('Login after registration failed.');
+      }
+    }
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 400) {
+        setError('email', { message: 'User already exists' });
+      } else if (error.response.status === 401) {
+        setError('password', { message: 'Invalid login credentials' });
+      } else {
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    } else {
+      alert('Server is unreachable. Please try again later.');
+    }
+  }
+};
+const googlehandle = () => {
+ window.location.href = 'http://localhost:5000/api/auth/google';
+}
 
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('../public/pokemonbg.jpg')]">
@@ -118,7 +140,7 @@ const Signup = () => {
                   <div className="text-red-600 text-sm mt-3">{errors.password.message}</div>
                 )}
               </label>
-
+                
             </div>
           </div>
 
@@ -136,6 +158,15 @@ const Signup = () => {
             </button>
           </div>
         </form>
+        <div className="flex justify-center mt-6"> 
+            <div className='text-white text-2xl'>OR</div>
+        </div>
+        <div className="flex justify-center mt-6">
+  <button onClick={googlehandle} className="flex items-center space-x-2 border border-b-2 border-black rounded px-6 py-2 text-white bg-red-500 hover:bg-red-600 transition">
+    <FaGoogle className="w-5 h-5" />
+    <span>Sign up with Google</span>
+  </button>
+</div>
       </div>
     </div>
   );

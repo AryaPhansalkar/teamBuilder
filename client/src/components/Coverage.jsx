@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
  const typeColors = {
   Bug: 'bg-lime-400',
   Dark: 'bg-gray-800 text-white',
@@ -25,6 +26,7 @@ import React from 'react'
     "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"
   ];
 const Coverage = ({title}) => {
+  const [weakness,setWeakness] = useState(0);
   return (
     <div>
       <div>
@@ -37,7 +39,7 @@ const Coverage = ({title}) => {
           className={`flex justify-between items-center px-2 py-1 rounded ${typeColors[type] || 'bg-gray-100'}`}
         >
           <span>{type}</span>
-          <span className="font-semibold">0</span>
+          <span className="font-semibold">{weakness}</span>
         </div>
       ))}
     </div>

@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { compare } from '../authentication/compare';
-
+import { compare } from '../auth/compare';
+import { FaGoogle } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -17,29 +19,30 @@ const Login = () => {
   const navigate = useNavigate();
   const [authError, setAuthError] = useState('');
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      navigate('/builder');
-    }
-  }, [navigate]);
+  const googlelogin = () => {
+    window.open('http://localhost:5000/api/auth/google', '_self');
+  };
 
   const onSubmit = async (data) => {
-    const userinfo = JSON.parse(localStorage.getItem('user'));
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', 
+        body: JSON.stringify(data),
+      });
 
-    if (!userinfo) {
-      setAuthError("User does not exist. Please sign up first.");
-    } else {
-      if (
-        data.email === userinfo.email &&
-        (await compare(data.password, userinfo.password))
-      ) {
-        setAuthError('');
-        localStorage.setItem('isLoggedIn', 'true');
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Login Success:', result);
         navigate('/builder');
       } else {
-        setAuthError('Incorrect email or password');
+        const errorData = await response.json();
+        setAuthError(errorData.message || 'Login failed');
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      setAuthError('Something went wrong');
     }
   };
 
@@ -82,20 +85,26 @@ const Login = () => {
                 <div className="text-red-600 text-sm">{errors.email.message}</div>
               )}
 
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                {...register("password", {
-                  required: { value: true, message: "Field required" },
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters long",
-                  },
-                })}
-                placeholder="Enter Password"
-                className="border border-gray-300 rounded px-4 py-2 text-black w-full"
-              />
+              <label className="relative w-full">
+                Password:
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  placeholder="Enter password"
+                  className="border border-gray-300 rounded px-4 py-2 text-black w-full mt-1" 
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="absolute top-[38px] right-3 text-black focus:outline-none"
+                >
+                  {showPassword ? (
+                    <FaEyeSlash className="h-5 w-5" />
+                  ) : (
+                    <FaEye className="h-5 w-5" />
+                  )}
+                </button>
+                </label>
               {errors.password && (
                 <div className="text-red-600 text-sm">{errors.password.message}</div>
               )}
@@ -112,6 +121,15 @@ const Login = () => {
             </button>
           </div>
         </form>
+         <div className="flex justify-center mt-6"> 
+                    <div className='text-white text-2xl'>OR</div>
+                </div>
+                <div className="flex justify-center mt-6">
+          <button onClick={googlelogin} className="flex items-center space-x-2 border border-b-2 border-black rounded px-6 py-2 text-white bg-red-500 hover:bg-red-600 transition">
+            <FaGoogle className="w-5 h-5" />
+            <span>Login with Google</span>
+          </button>
+        </div>
       </div>
     </div>
   );
