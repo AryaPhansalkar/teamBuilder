@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
+import express from 'express';
 import app from "./app.js";
 import "./config/passport.js";
 import path from "path";
