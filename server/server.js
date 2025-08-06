@@ -3,7 +3,8 @@ dotenv.config();
 import mongoose from "mongoose";
 import app from "./app.js";
 import "./config/passport.js";
-
+import path from "path";
+import { fileURLToPath } from "url";
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -13,6 +14,16 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 
