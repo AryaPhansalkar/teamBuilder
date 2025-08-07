@@ -62,11 +62,11 @@ export const googleLoginSuccess = (req, res) => {
   }
 
   console.log(`Google login successful for: ${req.user.email}`);
-  res.redirect('http://localhost:3000/builder'); 
+  res.redirect(process.env.FRONTEND_URL + '/builder');
 };
 
 export const googleLoginFailure = (req, res) => {
-  res.redirect('http://localhost:3000/signup');
+  res.redirect(process.env.FRONTEND_URL + '/signup');
 };
 
 export const EncryptPassword = async(plainPassword)=>{

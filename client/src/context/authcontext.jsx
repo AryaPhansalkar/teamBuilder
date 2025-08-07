@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get(import.meta.env.API_BASE_URL + '/api/builder-data', {
+      const res = await axios.get(process.env.REACT_APP_API_BASE_URL + '/api/builder-data', {
         withCredentials: true
       });
       setIsAuth(res.status === 200);

@@ -33,7 +33,7 @@ const Signup = () => {
   const onSubmit = async (data) => {
     try {
       // Step 1: Register the user
-      const registerRes = await axios.post(import.meta.env.API_BASE_URL + '/api/auth/register', {
+      const registerRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/register', {
         username: data.username,
         email: data.email,
         password: data.password
@@ -41,7 +41,7 @@ const Signup = () => {
 
       if (registerRes.status === 201) {
 
-        const loginRes = await axios.post(import.meta.env.API_BASE_URL + '/api/auth/login', {
+        const loginRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
           email: data.email,
           password: data.password
         }, { withCredentials: true });
@@ -67,7 +67,7 @@ const Signup = () => {
     }
   };
   const googlehandle = () => {
-    window.location.href = import.meta.env.API_BASE_URL + '/api/auth/google';
+    window.location.href = process.env.REACT_APP_API_BASE_URL + '/api/auth/google';
   }
 
   return (
