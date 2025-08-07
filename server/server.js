@@ -16,15 +16,17 @@ const connectDB = async () => {
   }
 };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+// // ✅ Serve static files from the React app
+// app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
+// // ✅ Catch-all handler: for any request that doesn't match an API route, send back React's index.html
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+// });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
 
 const PORT = process.env.PORT || 5000;
 

@@ -30,45 +30,45 @@ const Signup = () => {
     }
   });
   const navigate = useNavigate();
-const onSubmit = async (data) => {
-  try {
-    // Step 1: Register the user
-    const registerRes = await axios.post('http://localhost:5000/api/auth/register', {
-      username: data.username,
-      email: data.email,
-      password: data.password
-    }, { withCredentials: true }); 
-
-    if (registerRes.status === 201) {
-     
-      const loginRes = await axios.post('http://localhost:5000/api/auth/login', {
+  const onSubmit = async (data) => {
+    try {
+      // Step 1: Register the user
+      const registerRes = await axios.post(import.meta.env.API_BASE_URL + '/api/auth/register', {
+        username: data.username,
         email: data.email,
         password: data.password
-      }, { withCredentials: true }); 
+      }, { withCredentials: true });
 
-      if (loginRes.status === 200) {
-        navigate('/builder');
+      if (registerRes.status === 201) {
+
+        const loginRes = await axios.post(import.meta.env.API_BASE_URL + '/api/auth/login', {
+          email: data.email,
+          password: data.password
+        }, { withCredentials: true });
+
+        if (loginRes.status === 200) {
+          navigate('/builder');
+        } else {
+          alert('Login after registration failed.');
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          setError('email', { message: 'User already exists' });
+        } else if (error.response.status === 401) {
+          setError('password', { message: 'Invalid login credentials' });
+        } else {
+          alert('An unexpected error occurred. Please try again later.');
+        }
       } else {
-        alert('Login after registration failed.');
+        alert('Server is unreachable. Please try again later.');
       }
     }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 400) {
-        setError('email', { message: 'User already exists' });
-      } else if (error.response.status === 401) {
-        setError('password', { message: 'Invalid login credentials' });
-      } else {
-        alert('An unexpected error occurred. Please try again later.');
-      }
-    } else {
-      alert('Server is unreachable. Please try again later.');
-    }
+  };
+  const googlehandle = () => {
+    window.location.href = import.meta.env.API_BASE_URL + '/api/auth/google';
   }
-};
-const googlehandle = () => {
- window.location.href = 'http://localhost:5000/api/auth/google';
-}
 
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('../public/pokemonbg.jpg')]">
@@ -123,7 +123,7 @@ const googlehandle = () => {
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   placeholder="Enter password"
-                  className="border border-gray-300 rounded px-4 py-2 text-black w-full mt-1" 
+                  className="border border-gray-300 rounded px-4 py-2 text-black w-full mt-1"
                 />
                 <button
                   type="button"
@@ -140,7 +140,7 @@ const googlehandle = () => {
                   <div className="text-red-600 text-sm mt-3">{errors.password.message}</div>
                 )}
               </label>
-                
+
             </div>
           </div>
 
@@ -158,15 +158,15 @@ const googlehandle = () => {
             </button>
           </div>
         </form>
-        <div className="flex justify-center mt-6"> 
-            <div className='text-white text-2xl'>OR</div>
+        <div className="flex justify-center mt-6">
+          <div className='text-white text-2xl'>OR</div>
         </div>
         <div className="flex justify-center mt-6">
-  <button onClick={googlehandle} className="flex items-center space-x-2 border border-b-2 border-black rounded px-6 py-2 text-white bg-red-500 hover:bg-red-600 transition">
-    <FaGoogle className="w-5 h-5" />
-    <span>Sign up with Google</span>
-  </button>
-</div>
+          <button onClick={googlehandle} className="flex items-center space-x-2 border border-b-2 border-black rounded px-6 py-2 text-white bg-red-500 hover:bg-red-600 transition">
+            <FaGoogle className="w-5 h-5" />
+            <span>Sign up with Google</span>
+          </button>
+        </div>
       </div>
     </div>
   );

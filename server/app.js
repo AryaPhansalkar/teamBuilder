@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import express from "express";
 import session from "express-session";
 import passport from "passport";
@@ -9,9 +8,10 @@ import builderRoutes from "./routes/builder.routes.js";
 import cors from "cors";
 
 const app = express();
+dotenv.config();
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
@@ -21,10 +21,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-     cookie: {
+    cookie: {
       httpOnly: true,
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 7 
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7
     },
   })
 );
