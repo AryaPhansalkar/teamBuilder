@@ -11,7 +11,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
 app.use(express.json());
@@ -23,7 +23,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
     },
   })
