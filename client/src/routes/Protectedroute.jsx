@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/builder-data', {
+        const res = await fetch(process.env.REACT_APP_API_BASE_URL + '/api/builder-data', {
           credentials: 'include',
         });
 
