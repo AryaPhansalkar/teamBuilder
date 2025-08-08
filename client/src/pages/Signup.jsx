@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,9 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
+import axiosAPI from '../utils/axios';
+
+
 export const SignupScheme = z.object({
   username: z.string().min(3, { message: "username must be 3 characters long" }).max(25, { message: "username cannot exceed 25 characters" }),
   email: z.string().email({ message: "Invalid email format" }).nonempty({ message: "Email is required" }),
@@ -33,20 +35,21 @@ const Signup = () => {
   const onSubmit = async (data) => {
     try {
       // Step 1: Register the user
-      const registerRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/register', {
+      const registerRes = await axiosAPI.post('/api/auth/register', {
         username: data.username,
         email: data.email,
         password: data.password
       }, { withCredentials: true });
 
       if (registerRes.status === 201) {
-
-        const loginRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
+        console.log('Registration Success:', registerRes.data);
+        const loginRes = await axiosAPI.post('/api/auth/login', {
           email: data.email,
           password: data.password
         }, { withCredentials: true });
 
         if (loginRes.status === 200) {
+          console.log('Login Success:', loginRes.data);
           navigate('/builder');
         } else {
           alert('Login after registration failed.');

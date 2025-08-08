@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { compare } from '../auth/compare';
 import { FaGoogle } from 'react-icons/fa';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axiosAPI from '../utils/axios';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -23,28 +24,21 @@ const Login = () => {
     window.open(process.env.REACT_APP_API_BASE_URL + '/api/auth/google', '_self');
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await fetch(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', 
-        body: JSON.stringify(data),
-      });
+ const onSubmit = async (data) => {
+  try {
+    const response = await axiosAPI.post('/api/auth/login', data); 
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Login Success:', result);
-        navigate('/builder');
-      } else {
-        const errorData = await response.json();
-        setAuthError(errorData.message || 'Login failed');
-      }
-    } catch (error) {
+    console.log('Login Success:', response.data);
+    navigate('/builder');
+  } catch (error) {
+    if (error.response) {
+      setAuthError(error.response.data.message || 'Login failed');
+    } else {
       console.error('Login error:', error);
       setAuthError('Something went wrong');
     }
-  };
+  }
+};
 
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('../public/loginbg.jpg')]">

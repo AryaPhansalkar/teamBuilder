@@ -3,7 +3,7 @@ import Select from 'react-select';
 import Defence from '../components/Defence.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authcontext';
-import axios from 'axios';
+import axiosAPI from '../utils/axios.js';
 
 const Dashboard = () => {
   const { setIsAuth } = useAuth();
@@ -17,13 +17,13 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     await saveTeam();
-    await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/logout', {}, { withCredentials: true });
+    await axiosAPI.post('/api/auth/logout', {}, { withCredentials: true });
     setIsAuth(false);
     navigate('/');
   };
   
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API_BASE_URL + '/api/builder-data', { withCredentials: true })
+    axiosAPI.get('/api/builder-data', { withCredentials: true })
        .then((res) => {
         setUserinfo(res.data.username);
         console.log("User name", res.data.username);
@@ -49,7 +49,7 @@ const Dashboard = () => {
   useEffect(() => {
     const loadTeam = async () => {
       try {
-        const res = await axios.get(process.env.REACT_APP_API_BASE_URL + '/api/load-team', { withCredentials: true });
+        const res = await axiosAPI.get(process.env.REACT_APP_API_BASE_URL + '/api/load-team', { withCredentials: true });
         const saved = res.data.team || [];
 
         const newTeam = Array(6).fill(null);
@@ -88,7 +88,7 @@ const Dashboard = () => {
     }));
 
     try {
-      await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/save-team', { team: formatted }, { withCredentials: true });
+      await axiosAPI.post(process.env.REACT_APP_API_BASE_URL + '/api/save-team', { team: formatted }, { withCredentials: true });
     } catch (err) {
       console.error("Failed to save team:", err);
     }

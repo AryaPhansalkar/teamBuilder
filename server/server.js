@@ -6,6 +6,7 @@ import app from "./app.js";
 import "./config/passport.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import cors from 'cors';
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -35,3 +36,8 @@ connectDB().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
+app.use(cors({
+  origin: 'http://localhost:3000', // ✅ your frontend
+  credentials: true,               // ✅ allow cookies
+}));
