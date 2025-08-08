@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.get('/api/builder-data', {
         withCredentials: true
       });
-      setIsAuth(res.status === 200);
+      setIsAuth(true);
     } catch {
       setIsAuth(false);
     }
