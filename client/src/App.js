@@ -14,25 +14,25 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      // <RedirectIfAuth>
+      <RedirectIfAuth>
         <Welcome />
-      // </RedirectIfAuth>
+      </RedirectIfAuth>
     )
   },
   {
     path: '/login',
     element: (
-      // <RedirectIfAuth>
+      <RedirectIfAuth>
         <Login />
-      // </RedirectIfAuth>
+      </RedirectIfAuth>
     )
   },
   {
     path: '/signup',
     element: (
-      // <RedirectIfAuth>
+      <RedirectIfAuth>
         <Signup />
-      // </RedirectIfAuth>
+      </RedirectIfAuth>
     )
   },
   {
