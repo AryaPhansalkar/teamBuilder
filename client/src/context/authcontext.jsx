@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
       });
       setIsAuth(true);
     } catch {
+      console.log("authcontext error");
       setIsAuth(false);
     }
   };
