@@ -10,6 +10,7 @@ import cors from "cors";
 const app = express();
 dotenv.config();
 
+console.log("Using CORS origin:", process.env.FRONTEND_URL);
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
