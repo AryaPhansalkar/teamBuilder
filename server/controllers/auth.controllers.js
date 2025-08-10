@@ -77,7 +77,7 @@ export const googleLoginSuccess = (req, res) => {
 
   // Redirect with token in URL
   console.log("getting redirected to backend");
-  res.redirect(process.env.FRONTEND_URL + '/builder');
+  res.redirect(`${process.env.FRONTEND_URL}/oauth-success?token=${token}`);
 };
 
 // Add a small exchange endpoint

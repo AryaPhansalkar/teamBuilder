@@ -43,7 +43,12 @@ const router = createBrowserRouter([
         <Dashboard />
       </Protectedroute>
     )
-  }
+  },
+  {
+  path: "/oauth-success",
+  element: <OAuthSuccess />,
+}//added change which u can remove later
+
 ]);
 
 
