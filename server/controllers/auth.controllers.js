@@ -91,10 +91,16 @@ export const exchangeToken = (req, res) => {
   tempTokens.delete(token);
 
   req.login(user, (err) => {
-    if (err) return res.status(500).json({ success: false, message: 'Login failed' });
+    if (err) {
+      console.error("req.login error:", err);
+      return res.status(500).json({ success: false, message: 'Login failed', error: err.message });
+    }
+    // Optionally log session info
+    console.log("User logged in via exchangeToken:", user.email);
     res.json({ success: true });
   });
 };
+
 
 // export const googleLoginSuccess = (req, res) => {
 //   if (!req.user) {
