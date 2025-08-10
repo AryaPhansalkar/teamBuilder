@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Protectedroute from './routes/Protectedroute';
+import OAuthSuccess from './pages/OAuthSuccess';
 import { useAuth } from './context/authcontext';
 import RedirectIfAuth from './routes/RedirectIfAuth';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
