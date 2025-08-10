@@ -76,7 +76,8 @@ export const googleLoginSuccess = (req, res) => {
   setTimeout(() => tempTokens.delete(token), 60 * 1000);
 
   // Redirect with token in URL
-  res.redirect(`${process.env.FRONTEND_URL}/oauth-success?token=${token}`);
+  console.log("getting redirected to backend");
+  res.redirect(process.env.FRONTEND_URL + '/builder');
 };
 
 // Add a small exchange endpoint
