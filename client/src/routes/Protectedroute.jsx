@@ -1,51 +1,39 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosAPI from "../utils/axios.js";
-import { useAuth } from "../context/authcontext"; // assuming you have this
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth(); // get login state from context
   const [isAuth, setIsAuth] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
-      // don’t check if still loading context
-      if (loading) return;
-
-      // if no user in context, skip API check
-      if (!user) {
-        setIsAuth(false);
-        return;
-      }
-
       try {
-        const res = await axiosAPI.get("/api/builder-data", {
-          withCredentials: true,
-        });
-        if (res.status === 200) {
-          setIsAuth(true);
-        } else {
-          setIsAuth(false);
-        }
+        const res = await axiosAPI.get("/api/builder-data", { withCredentials: true });
+        setIsAuth(res.status === 200);
       } catch (err) {
-        if (err.response && err.response.status === 401) {
-          // not logged in, but no crash
-          setIsAuth(false);
-        } else {
-          console.error("Unexpected auth check error:", err);
-          setIsAuth(false);
-        }
+        setIsAuth(false);
       }
     };
 
     checkAuth();
-  }, [user, loading]);
+  }, []);
 
-  if (loading || isAuth === null) return <p>Checking authentication...</p>;
-  return isAuth ? <>{children}</> : <Navigate to="/signup" replace />;
+  // While checking, render nothing or a loader — no redirect yet
+  if (isAuth === null) {
+    return <p>Checking authentication...</p>;
+  }
+
+  // If not authenticated, redirect once (replace prevents loop)
+  if (!isAuth) {
+    return <Navigate to="/signup" replace />;
+  }
+
+  // Authenticated — render children
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
+
 
 
 
