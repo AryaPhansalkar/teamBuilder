@@ -15,6 +15,7 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
 }));
+console.log("starting backend");
 console.log("Using CORS origin:", process.env.FRONTEND_URL);
 app.use((req, res, next) => {
   console.log("CORS already applied, path:", req.path);
