@@ -13,27 +13,28 @@ function App() {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <RedirectIfAuth>
-        <Welcome />
-      </RedirectIfAuth>
-    )
+    element: <Welcome />
+      // <RedirectIfAuth>
+      // </RedirectIfAuth>
+    
   },
   {
     path: '/login',
-    element: (
-      <RedirectIfAuth>
-        <Login />
-      </RedirectIfAuth>
-    )
+    element: <Login />
+    // element: (
+    //   <RedirectIfAuth>
+    //     <Login />
+    //   </RedirectIfAuth>
+    // )
   },
   {
     path: '/signup',
-    element: (
-      <RedirectIfAuth>
-        <Signup />
-      </RedirectIfAuth>
-    )
+    element: <Signup />
+    // element: (
+    //   <RedirectIfAuth>
+    //     <Signup />
+    //   </RedirectIfAuth>
+    // )
   },
   {
     path: '/builder',
