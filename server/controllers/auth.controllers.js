@@ -104,9 +104,9 @@ export const exchangeToken = (req, res) => {
 //   res.redirect(process.env.FRONTEND_URL + '/builder');
 // };
 
-// export const googleLoginFailure = (req, res) => {
-//   res.redirect(process.env.FRONTEND_URL + '/signup');
-// };
+export const googleLoginFailure = (req, res) => {
+  res.redirect(process.env.FRONTEND_URL + '/signup');
+};
 
 export const EncryptPassword = async(plainPassword)=>{
     const saltround = 10;
