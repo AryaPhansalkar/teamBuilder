@@ -5,7 +5,7 @@ import User from '../models/user.js';
 
 const router = express.Router();
 
-router.get("/builder-data", isAuthenticated, getBuilderData);
+router.get("/builder-data",  getBuilderData ,isAuthenticated); //changed order
 
 router.post('/save-team', (req, res) => {
   if (!req.user) {

@@ -7,7 +7,7 @@ import "./config/passport.js";
 import authRoutes from "./routes/auth.routes.js";
 import builderRoutes from "./routes/builder.routes.js";
 import cors from "cors";
-
+import cookieSession from 'cookie-session';
 const app = express();
 dotenv.config();
 
@@ -25,6 +25,12 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.SESSION_SECRET],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
 
 app.use(
   session({
