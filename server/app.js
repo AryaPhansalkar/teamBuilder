@@ -16,7 +16,7 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
 }));
-app.options('*', cors()); // added in bug fix 18
+// app.options('*', cors()); // added in bug fix 18
 app.use((req, res, next) => {
   console.log("starting backend");
   console.log("Using CORS origin:", process.env.FRONTEND_URL);
