@@ -29,7 +29,10 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }), //added in bug fix 17
+      store: MongoStore.create({    // IMPORTANT: use persistent store in production
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions',
+  }), //added in bug fix 17
     resave: false,
     saveUninitialized: false,
     cookie: {

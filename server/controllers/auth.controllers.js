@@ -77,6 +77,11 @@ export const googleLoginSuccess = (req, res) => {
 
   // Redirect with token in URL
   console.log("getting redirected to backend");
+   res.cookie('connect.sid', req.sessionID, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
   res.redirect(`${process.env.FRONTEND_URL}/oauth-success?token=${token}`);
 };
 
