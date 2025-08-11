@@ -16,6 +16,7 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
 }));
+app.options('*', cors()); // added in bug fix 18
 app.use((req, res, next) => {
   console.log("starting backend");
   console.log("Using CORS origin:", process.env.FRONTEND_URL);
@@ -28,7 +29,7 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }), //added in bug fix 17
     resave: false,
     saveUninitialized: false,
     cookie: {
