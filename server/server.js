@@ -38,6 +38,6 @@ connectDB().then(() => {
 });
 
 app.use(cors({
-  origin: 'http://localhost:3000', // ✅ your frontend
+  origin: process.env.FRONTEND_URL, // ✅ your frontend
   credentials: true,               // ✅ allow cookies
 }));
