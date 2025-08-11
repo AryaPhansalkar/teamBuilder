@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import MongoStore from 'connect-mongo';
 import "./config/passport.js";
 import authRoutes from "./routes/auth.routes.js";
 import builderRoutes from "./routes/builder.routes.js";
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false,
     cookie: {

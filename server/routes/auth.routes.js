@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 
-router.post('/exchange-token', exchangeToken);
+router.post('/exchange-token', exchangeToken); //added a route here in fix 16
 
 router.get(
   "/google",
