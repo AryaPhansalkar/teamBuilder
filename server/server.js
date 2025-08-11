@@ -37,7 +37,7 @@ connectDB().then(() => {
   });
 });
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL, // ✅ your frontend
-  credentials: true,               // ✅ allow cookies
-}));
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL, // ✅ your frontend
+//   credentials: true,               // ✅ allow cookies
+// }));

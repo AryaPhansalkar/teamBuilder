@@ -3,12 +3,15 @@ import { register } from '../controllers/auth.controllers.js';
 import { login } from '../controllers/auth.controllers.js';
 import { googleLoginSuccess, googleLoginFailure } from '../controllers/auth.controllers.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
+import { exchangeToken } from '../controllers/auth.controllers.js';
 import passport from "passport";
 const router = express.Router();
 
 
 router.post('/register', register);
 router.post('/login', login);
+
+router.post('/exchange-token', exchangeToken);
 
 router.get(
   "/google",
