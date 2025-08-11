@@ -42,7 +42,7 @@ export const googleCallbackHandler = async (accessToken, refreshToken, profile, 
 
     return done(null, user);
   } catch (err) {
-    return done(null,user);
+    return done(err,null);
   }
 };
 
