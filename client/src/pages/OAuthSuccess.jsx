@@ -1,30 +1,36 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useSearchParams} from "react-router-dom";
 import axiosAPI from "../utils/axios";
 
-export default function OAuthSuccess() {
+const OAuthSuccess = () => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const token = searchParams.get('token');
 
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get("token");
-    if (token) {
-      axiosAPI.post("/api/auth/exchange-token", { token }, { withCredentials: true })
-        .then(res => {
-          if (res.data.success) {
-            navigate("/builder");
-          } else {
-            alert("Authentication failed");
-            navigate("/login");
-          }
-        })
-        .catch(() => {
-          alert("Authentication failed");
-          navigate("/login");
-        });
-    } else {
-      navigate("/login");
+    if (!token) {
+      navigate('/login');
+      return;
     }
-  }, [navigate]);
 
-  return <p>Authenticating...</p>;
-}
+    const exchangeToken = async () => {
+      try {
+        const res = await axiosAPI.post('/api/auth/exchange-token', { token }, { withCredentials: true });
+        if (res.data.success) {
+          navigate('/builder');
+        } else {
+          navigate('/login');
+        }
+      } catch (err) {
+        console.error('Token exchange failed', err);
+        navigate('/login');
+      }
+    };
+
+    exchangeToken();
+  }, [token, navigate]);
+
+  return <p>Logging you in...</p>;
+};
+
+export default OAuthSuccess;
