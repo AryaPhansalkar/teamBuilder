@@ -27,7 +27,7 @@ router.post('/save-team', (req, res) => {
 
 router.get('/load-team', isAuthenticated, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
     res.json({ team: user.pokemonTeam || [] });
   } catch (err) {
     res.status(500).json({ error: err.message });

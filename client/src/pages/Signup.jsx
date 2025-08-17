@@ -30,42 +30,83 @@ const Signup = () => {
     }
   });
   const navigate = useNavigate();
+
   const onSubmit = async (data) => {
-    try {
-      // Step 1: Register the user
-      const registerRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/register', {
+  try {
+    // Register + auto-login (backend handles login after register)
+    const registerRes = await axios.post(
+      process.env.REACT_APP_API_BASE_URL + '/api/auth/register',
+      {
         username: data.username,
         email: data.email,
         password: data.password
-      }, { withCredentials: true });
+      },
+      { withCredentials: true } // this ensures cookie/session is stored
+    );
 
-      if (registerRes.status === 201) {
+    if (registerRes.status === 201) {
+      // ✅ Since backend already logged in, just redirect
+      const { token, user } = registerRes.data;
 
-        const loginRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
-          email: data.email,
-          password: data.password
-        }, { withCredentials: true });
+  // Save JWT token in localStorage (or sessionStorage)
+      localStorage.setItem("token", token);
 
-        if (loginRes.status === 200) {
-          navigate('/builder');
-        } else {
-          alert('Login after registration failed.');
-        }
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 400) {
-          setError('email', { message: 'User already exists' });
-        } else if (error.response.status === 401) {
-          setError('password', { message: 'Invalid login credentials' });
-        } else {
-          alert('An unexpected error occurred. Please try again later.');
-        }
-      } else {
-        alert('Server is unreachable. Please try again later.');
-      }
+  // (optional) Save user info if you need quick access
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log("Registration successful:", token);  
+      navigate('/builder');
     }
-  };
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 400) {
+        setError('email', { message: 'User already exists' });
+      } else if (error.response.status === 401) {
+        setError('password', { message: 'Invalid login credentials' });
+      } else {
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    } else {
+      alert('Server is unreachable. Please try again later.');
+    }
+  }
+};
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     // Step 1: Register the user
+  //     const registerRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/register', {
+  //       username: data.username,
+  //       email: data.email,
+  //       password: data.password
+  //     }, { withCredentials: true });
+
+  //     if (registerRes.status === 201) {
+
+  //       const loginRes = await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
+  //         email: data.email,
+  //         password: data.password
+  //       }, { withCredentials: true });
+
+  //       if (loginRes.status === 200) {
+  //         navigate('/builder');
+  //       } else {
+  //         alert('Login after registration failed.');
+  //       }
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       if (error.response.status === 400) {
+  //         setError('email', { message: 'User already exists' });
+  //       } else if (error.response.status === 401) {
+  //         setError('password', { message: 'Invalid login credentials' });
+  //       } else {
+  //         alert('An unexpected error occurred. Please try again later.');
+  //       }
+  //     } else {
+  //       alert('Server is unreachable. Please try again later.');
+  //     }
+  //   }
+  // };
   const googlehandle = () => {
     window.location.href = process.env.REACT_APP_API_BASE_URL + '/api/auth/google';
   }

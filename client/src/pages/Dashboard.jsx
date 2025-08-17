@@ -23,15 +23,46 @@ const Dashboard = () => {
   };
   
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API_BASE_URL + '/api/builder-data', { withCredentials: true })
-       .then((res) => {
-        setUserinfo(res.data.username);
-        console.log("User name", res.data.username);
-      })
-      .catch(() => {
-        navigate('/');
-      });
-  }, []);
+  const fetchUserInfo = async () => {
+    try {
+      const token = localStorage.getItem("token"); // get JWT from storage
+
+      if (!token) {
+        navigate("/"); // no token? redirect to login
+        return;
+      }
+
+      const res = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + "/api/builder-data",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in header
+          },
+        }
+      );
+
+      setUserinfo(res.data.username);
+      console.log("User name", res.data.username);
+
+    } catch (err) {
+      console.error("Failed to fetch user info:", err);
+      navigate("/"); // invalid/expired token? redirect
+    }
+  };
+
+  fetchUserInfo();
+}, [navigate]);
+
+  // useEffect(() => {
+  //   axios.get(process.env.REACT_APP_API_BASE_URL + '/api/builder-data', { withCredentials: true })
+  //      .then((res) => {
+  //       setUserinfo(res.data.username);
+  //       console.log("User name", res.data.username);
+  //     })
+  //     .catch(() => {
+  //       navigate('/');
+  //     });
+  // }, []);
   
   useEffect(() => {
     const fetchPokemon = async () => {
@@ -47,39 +78,97 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const loadTeam = async () => {
-      try {
-        const res = await axios.get(process.env.REACT_APP_API_BASE_URL + '/api/load-team', { withCredentials: true });
-        const saved = res.data.team || [];
+  const loadTeam = async () => {
+    try {
+      const token = localStorage.getItem("token"); // get JWT
 
-        const newTeam = Array(6).fill(null);
-        const newSelectedMoves = Array(6).fill([]);
-        const newMovesList = Array(6).fill([]);
-
-        for (let i = 0; i < 6; i++) {
-          const entry = saved[i];
-          if (entry && entry.pokemon) {
-            newTeam[i] = entry.pokemon;
-
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${entry.pokemon.value}`);
-            const data = await res.json();
-            const allMoves = data.moves.map(m => ({ label: m.move.name, value: m.move.name }));
-
-            newMovesList[i] = allMoves;
-            newSelectedMoves[i] = (entry.moves || []).map(m => ({ label: m, value: m }));
-          }
-        }
-
-        setTeam(newTeam);
-        setMovesList(newMovesList);
-        setSelectedMoves(newSelectedMoves);
-      } catch (err) {
-        console.error("Failed to load saved team:", err);
+      if (!token) {
+        console.warn("No token found. User might not be logged in.");
+        return;
       }
-    };
 
-    loadTeam();
-  }, []);
+      const res = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + "/api/load-team",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send JWT here
+          },
+        }
+      );
+
+      const saved = res.data.team || [];
+
+      const newTeam = Array(6).fill(null);
+      const newSelectedMoves = Array(6).fill([]);
+      const newMovesList = Array(6).fill([]);
+
+      for (let i = 0; i < 6; i++) {
+        const entry = saved[i];
+        if (entry && entry.pokemon) {
+          newTeam[i] = entry.pokemon;
+
+          const pokeRes = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${entry.pokemon.value}`
+          );
+          const data = await pokeRes.json();
+          const allMoves = data.moves.map((m) => ({
+            label: m.move.name,
+            value: m.move.name,
+          }));
+
+          newMovesList[i] = allMoves;
+          newSelectedMoves[i] = (entry.moves || []).map((m) => ({
+            label: m,
+            value: m,
+          }));
+        }
+      }
+
+      setTeam(newTeam);
+      setMovesList(newMovesList);
+      setSelectedMoves(newSelectedMoves);
+    } catch (err) {
+      console.error("Failed to load saved team:", err);
+    }
+  };
+
+  loadTeam(); // ✅ auto-load on mount
+}, []);
+
+  // useEffect(() => {
+  //   const loadTeam = async () => {
+  //     try {
+  //       const res = await axios.get(process.env.REACT_APP_API_BASE_URL + '/api/load-team', { withCredentials: true });
+  //       const saved = res.data.team || [];
+
+  //       const newTeam = Array(6).fill(null);
+  //       const newSelectedMoves = Array(6).fill([]);
+  //       const newMovesList = Array(6).fill([]);
+
+  //       for (let i = 0; i < 6; i++) {
+  //         const entry = saved[i];
+  //         if (entry && entry.pokemon) {
+  //           newTeam[i] = entry.pokemon;
+
+  //           const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${entry.pokemon.value}`);
+  //           const data = await res.json();
+  //           const allMoves = data.moves.map(m => ({ label: m.move.name, value: m.move.name }));
+
+  //           newMovesList[i] = allMoves;
+  //           newSelectedMoves[i] = (entry.moves || []).map(m => ({ label: m, value: m }));
+  //         }
+  //       }
+
+  //       setTeam(newTeam);
+  //       setMovesList(newMovesList);
+  //       setSelectedMoves(newSelectedMoves);
+  //     } catch (err) {
+  //       console.error("Failed to load saved team:", err);
+  //     }
+  //   };
+
+  //   loadTeam();
+  // }, []);
 
   const saveTeam = async () => {
     const formatted = team.map((pokemon, i) => ({
