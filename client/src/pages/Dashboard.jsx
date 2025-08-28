@@ -18,6 +18,7 @@ const Dashboard = () => {
   const handleLogout = async () => {
     await saveTeam();
     await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/logout', {}, { withCredentials: true });
+    localStorage.removeItem("token");
     setIsAuth(false);
     navigate('/');
   };
@@ -171,17 +172,48 @@ const Dashboard = () => {
   // }, []);
 
   const saveTeam = async () => {
-    const formatted = team.map((pokemon, i) => ({
-      pokemon,
-      moves: (selectedMoves[i] || []).map(m => m.value)
-    }));
+  const formatted = team.map((pokemon, i) => ({
+    pokemon,
+    moves: (selectedMoves[i] || []).map(m => m.value)
+  }));
 
-    try {
-      await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/save-team', { team: formatted }, { withCredentials: true });
-    } catch (err) {
-      console.error("Failed to save team:", err);
-    }
-  };
+  try {
+    // Get token from localStorage (or context if you stored it differently)
+    const token = localStorage.getItem("token");
+
+    await axios.post(
+      process.env.REACT_APP_API_BASE_URL + "/api/save-team",
+      { team: formatted },
+      {
+        headers: {
+          Authorization: `Bearer ${token}` // attach JWT
+        }
+      }
+    );
+
+    console.log("✅ Team saved successfully!");
+  } catch (err) {
+    console.error("❌ Failed to save team:", err);
+  }
+};
+useEffect(() => {
+  if (team.length > 0) {
+    saveTeam();
+  }
+}, [team, selectedMoves]); 
+
+  // const saveTeam = async () => {
+  //   const formatted = team.map((pokemon, i) => ({
+  //     pokemon,
+  //     moves: (selectedMoves[i] || []).map(m => m.value)
+  //   }));
+
+  //   try {
+  //     await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/save-team', { team: formatted }, { withCredentials: true });
+  //   } catch (err) {
+  //     console.error("Failed to save team:", err);
+  //   }
+  // };
 
   const handlePokemonChange = async (index, selected) => {
     const updatedTeam = [...team];

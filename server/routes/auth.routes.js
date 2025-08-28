@@ -34,14 +34,20 @@ router.get('/builder-data', isAuthenticated, (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  req.logout((err) => {
-    if (err) return res.status(500).json({ message: "Logout failed", error: err });
-    req.session.destroy((err) => {
-      if (err) return res.status(500).json({ message: "Session destroy failed", error: err });
-      res.clearCookie("connect.sid", { path: "/" });
-      return res.json({ message: "Logged out successfully" });
+  try {
+    // Clear the JWT cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/"
     });
-  });
+
+    return res.json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    return res.status(500).json({ message: "Logout failed", error: err.message });
+  }
 });
 
 export default router;
