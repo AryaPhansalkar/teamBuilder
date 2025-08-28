@@ -23,28 +23,57 @@ const Login = () => {
     window.open(process.env.REACT_APP_API_BASE_URL + '/api/auth/google', '_self');
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await fetch(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', 
-        body: JSON.stringify(data),
-      });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Login Success:', result);
-        navigate('/builder');
-      } else {
-        const errorData = await response.json();
-        setAuthError(errorData.message || 'Login failed');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      setAuthError('Something went wrong');
+  const onSubmit = async (data) => {
+  try {
+    const response = await fetch(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+
+      // Save JWT to localStorage
+      localStorage.setItem("token", result.token);
+
+      console.log('Login Success:', result);
+
+      // Navigate to builder/dashboard
+      navigate('/builder');
+    } else {
+      const errorData = await response.json();
+      setAuthError(errorData.message || 'Login failed');
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    setAuthError('Something went wrong');
+  }
+};
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const response = await fetch(process.env.REACT_APP_API_BASE_URL + '/api/auth/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       credentials: 'include', 
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log('Login Success:', result);
+  //       navigate('/builder');
+  //     } else {
+  //       const errorData = await response.json();
+  //       setAuthError(errorData.message || 'Login failed');
+  //     }
+  //   } catch (error) {
+  //     console.error('Login error:', error);
+  //     setAuthError('Something went wrong');
+  //   }
+  // };
 
   return (
     <div className="bg-cover bg-center min-h-screen bg-[url('../public/loginbg.jpg')]">
