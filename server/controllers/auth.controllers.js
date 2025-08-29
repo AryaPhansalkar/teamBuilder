@@ -118,18 +118,41 @@ export const login = (req, res, next) => {
 //   })(req, res, next);
 // }
 
+
 export const googleLoginSuccess = (req, res) => {
   if (!req.user) {
-    return res.status(401).json({ success: false, message: 'User not authenticated' });
+    return res.status(401).json({ success: false, message: "User not authenticated" });
   }
 
   console.log(`Google login successful for: ${req.user.email}`);
-  res.redirect(process.env.FRONTEND_URL + '/builder');
+
+  // Generate JWT
+  const token = generateToken(req.user);
+
+  // Send back response like login/signup
+  res.redirect(
+    `${process.env.FRONTEND_URL}/auth/callback?token=${token}`
+  );
 };
 
 export const googleLoginFailure = (req, res) => {
   res.redirect(process.env.FRONTEND_URL + '/signup');
 };
+
+
+
+// export const googleLoginSuccess = (req, res) => {
+//   if (!req.user) {
+//     return res.status(401).json({ success: false, message: 'User not authenticated' });
+//   }
+
+//   console.log(`Google login successful for: ${req.user.email}`);
+//   res.redirect(process.env.FRONTEND_URL + '/builder');
+// };
+
+// export const googleLoginFailure = (req, res) => {
+//   res.redirect(process.env.FRONTEND_URL + '/signup');
+// };
 
 export const EncryptPassword = async(plainPassword)=>{
     const saltround = 10;

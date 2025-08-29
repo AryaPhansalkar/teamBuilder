@@ -22,7 +22,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/api/auth/google/failure",
-    session: true,
+    session: false,
   }),
   googleLoginSuccess
 );

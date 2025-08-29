@@ -19,6 +19,7 @@ const Dashboard = () => {
     await saveTeam();
     await axios.post(process.env.REACT_APP_API_BASE_URL + '/api/auth/logout', {}, { withCredentials: true });
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsAuth(false);
     navigate('/');
   };

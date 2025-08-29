@@ -10,10 +10,12 @@ const ProtectedRoute = ({ children }) => {
         const token = localStorage.getItem("token");
 
         if (!token) {
+          console.log("No token found");
           setIsAuth(false);
           return;
         }
-
+        console.log("fetching builder data");
+        console.log("Token being used:", token);
         const res = await fetch(
           process.env.REACT_APP_API_BASE_URL + "/api/builder-data",
           {
