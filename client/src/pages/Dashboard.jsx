@@ -198,10 +198,11 @@ const Dashboard = () => {
   }
 };
 useEffect(() => {
-  if (team.length > 0) {
+  const hasPokemon = team.some(p => p !== null);
+  if (hasPokemon) {
     saveTeam();
   }
-}, [team, selectedMoves]); 
+}, [team, selectedMoves]);
 
   // const saveTeam = async () => {
   //   const formatted = team.map((pokemon, i) => ({
