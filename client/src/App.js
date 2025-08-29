@@ -11,28 +11,32 @@ import RedirectIfAuth from './routes/RedirectIfAuth';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 function App() {
+  const token = localStorage.getItem('token');
+  console.log('Token in App.js:', token);
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element:<Welcome /> 
+{
+    path: "/",
+    element: (
+      <RedirectIfAuth>
+        <Welcome />
+      </RedirectIfAuth>
+    )
   },
   {
-    path: '/login',
-    element: <Login />
-    // (
-    //   <RedirectIfAuth>
-    //     <Login />
-    //   </RedirectIfAuth>
-    // )
+    path: "/login",
+    element: (
+      <RedirectIfAuth>
+        <Login />
+      </RedirectIfAuth>
+    )
   },
   {
-    path: '/signup',
-    element: <Signup />
-    // (
-    //   <RedirectIfAuth>
-    //     <Signup />
-    //   </RedirectIfAuth>
-    // )
+    path: "/signup",
+    element: (
+      <RedirectIfAuth>
+        <Signup />
+      </RedirectIfAuth>
+    )
   },
   {
     path: '/auth/callback',
